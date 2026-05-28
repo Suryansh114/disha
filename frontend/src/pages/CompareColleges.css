@@ -1,0 +1,200 @@
+.compare-colleges {
+  min-height: 100vh;
+  padding-top: 80px;
+  background: linear-gradient(135deg, #1a1a3e 0%, #16213e 25%, #0f3460 50%, #16a085 75%, #1abc9c 100%);
+  padding-bottom: 40px;
+}
+
+.compare-header {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 40px;
+  text-align: center;
+  color: white;
+}
+
+.compare-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 800;
+}
+
+.compare-header p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.compare-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.colleges-list h2,
+.comparison-table h2 {
+  color: white;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.colleges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.college-item {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.college-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-5px);
+}
+
+.college-item.selected {
+  background: rgba(99, 102, 241, 0.3);
+  border-color: #6366f1;
+}
+
+.college-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.college-item h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.college-type {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-bottom: 0.5rem;
+}
+
+.ranking {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  margin-bottom: 0.25rem;
+}
+
+.location {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.checkbox {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 20px;
+  height: 20px;
+  border: 2px solid white;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.college-item.selected .checkbox {
+  background: #6366f1;
+  border-color: #6366f1;
+}
+
+.comparison-table {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 2rem;
+  border-radius: 12px;
+  color: white;
+  margin-top: 3rem;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table thead {
+  background: rgba(99, 102, 241, 0.2);
+  border-bottom: 2px solid rgba(99, 102, 241, 0.5);
+}
+
+table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+table td:first-child {
+  font-weight: 600;
+  color: #6366f1;
+}
+
+table td.highlight {
+  color: #1abc9c;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .compare-colleges {
+    padding-top: 60px;
+  }
+
+  .compare-header {
+    padding: 40px 20px;
+  }
+
+  .compare-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .compare-container {
+    padding: 0 20px;
+  }
+
+  .colleges-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .comparison-table {
+    padding: 1rem;
+    overflow-x: auto;
+  }
+
+  table th,
+  table td {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+}
