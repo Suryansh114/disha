@@ -85,6 +85,30 @@ npm start
 
 The frontend will run on `http://localhost:3000`
 
+## Run the Website
+
+To run the full website locally, start the backend and frontend in separate terminals.
+
+### 1. Start the Backend
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+The backend server should run on `http://localhost:5000`.
+
+### 2. Start the Frontend
+```bash
+cd frontend
+npm install
+npm start
+```
+
+Then open the app in your browser at `http://localhost:3000`.
+
+> Make sure your backend `.env` is configured with a valid MongoDB connection string and any other required environment variables.
+
 ## Available Scripts
 
 ### Backend
