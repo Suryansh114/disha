@@ -1,161 +1,275 @@
 import React, { useState } from 'react';
+import { Mail, ArrowLeftRight, Sparkles, Heart, Award, Users } from 'lucide-react';
 import './CompareColleges.css';
 
+const collegesData = [
+  {
+    id: 'iit-bombay',
+    name: 'IIT Bombay (Powai)',
+    type: 'Engineering',
+    icon: '⚙️',
+    placements: '₹23.5 LPA overall average. Tech-focused recruiters (Google, Microsoft, high-frequency trading firms) dominate. Strong international offers.',
+    campusLife: 'Sprawling 550-acre green campus next to Powai Lake. Iconic cultural fest "Mood Indigo" and tech fest "Techfest". Active sports clubs. Hostel infrastructure is massive, though older hostels are basic and shared.',
+    research: 'Top-tier. High funding from government and MNCs. Houses advanced centers in nanotechnology, AI, and environmental engineering. Active patent filings.',
+    culture: 'Extremely competitive and high-pressure. Peer environment is exceptionally smart. Strong startup culture (E-Cell is highly influential).'
+  },
+  {
+    id: 'bits-pilani',
+    name: 'BITS Pilani (Pilani Campus)',
+    type: 'Engineering',
+    icon: '⚡',
+    placements: '₹20.8 LPA average. Top IT recruiters, core engineering firms, and finance companies (Goldman Sachs, Morgan Stanley) recruit in huge numbers.',
+    campusLife: 'Fully residential 328-acre self-contained desert campus. Vibrant student culture with fests like OASIS. Unique "Zero Attendance Policy" gives students maximum independence.',
+    research: 'High quality. Offers strong industry-linked research projects. Highly acclaimed Practice School (PS-I & PS-II) program offers 6-month industry internships.',
+    culture: 'Collaborative, relaxed compared to IITs. Strong student-run clubs. Exceptional alumni network (BITSians are known to help junior BITSians aggressively).'
+  },
+  {
+    id: 'aiims-delhi',
+    name: 'AIIMS New Delhi',
+    type: 'Medical',
+    icon: '🏥',
+    placements: 'Almost 100% placement into top medical residency positions globally. Incredible clinical exposure. OPD handles over 10,000 patients daily.',
+    campusLife: 'Located in the heart of South Delhi. Pulse is the largest medical fest in South Asia. Compact, cozy campus. Hostel rooms are guaranteed and very affordable (less than ₹1000/year).',
+    research: 'World-class clinical research. AIIMS papers are cited globally in healthcare policies. Undergraduate research is highly encouraged with ICMR grants.',
+    culture: 'Highly academic and demanding, but peers are extremely supportive. High sense of duty and public service. Workload is heavy, particularly during clinical postings.'
+  },
+  {
+    id: 'srcc',
+    name: 'SRCC (Delhi University)',
+    type: 'Commerce',
+    icon: '📊',
+    placements: '₹10.5 LPA average (highest for a non-tech UG college). Top consultancies (McKinsey, BCG, Bain) and financial firms recruit heavily.',
+    campusLife: 'Located in DU North Campus. Premium building infrastructure compared to other DU colleges. Fests like Crossroads are popular. Hostel seats are highly limited and merit-based.',
+    research: 'Focused on financial policy papers and corporate economics. Excellent resources at the GBO library. Less focus on patents, high focus on research journals.',
+    culture: 'Hyper-competitive. High emphasis on building corporate portfolios, case competitions, and obtaining high board/semester grades.'
+  },
+  {
+    id: 'nls-bangalore',
+    name: 'NLS Bangalore (NLSIU)',
+    type: 'Law',
+    icon: '⚖️',
+    placements: '₹16.0 LPA average. Premium domestic and international law firms (Amarchand, Trilegal, Linklaters) recruit directly. 100% placement rate for batches.',
+    campusLife: 'Cozy, leafy 23-acre campus in Nagarbhavi. Intense academic schedule with trimester system (3 terms/year). Excellent library resources and moot court infrastructure.',
+    research: 'India\'s leading center for legal reforms. Houses multiple research centers working directly with the Indian Judiciary and Law Commission.',
+    culture: 'Intellectually rigorous, argumentative, and socially conscious. Moot court and debating cultures dominate. High reading workloads.'
+  },
+  {
+    id: 'ashoka-univ',
+    name: 'Ashoka University (Sonepat)',
+    type: 'Liberal Arts & Sciences',
+    icon: '📚',
+    placements: '₹8.5 LPA average. Diverse recruiters across consulting, media houses, tech startups, and social impact NGOs.',
+    campusLife: 'Ultra-modern 25-acre residential campus in Sonepat (NCR). Top-tier hostels, fully air-conditioned, with premium dining halls. Very active student government and debating clubs.',
+    research: 'High emphasis on interdisciplinary studies. Renowned faculty with international publications. Great funding for humanities and basic sciences research.',
+    culture: 'Open, expressive, and liberal. Heavy focus on critical thinking, writing papers, and exploring subjects across fields before majoring.'
+  }
+];
+
 function CompareColleges() {
-  const [selectedColleges, setSelectedColleges] = useState([]);
+  const [collegeAId, setCollegeAId] = useState('iit-bombay');
+  const [collegeBId, setCollegeBId] = useState('bits-pilani');
+  
+  // Email capture state
+  const [email, setEmail] = useState('');
+  const [submitStatus, setSubmitStatus] = useState({ submitted: false, success: false, msg: '' });
 
-  const colleges = [
-    {
-      id: 1,
-      name: 'IIT Bombay',
-      type: 'NIT/IIT',
-      ranking: '#1',
-      location: 'Mumbai',
-      avgPackage: '₹22 LPA',
-      placements: '98%',
-      icon: '🏆'
-    },
-    {
-      id: 2,
-      name: 'Delhi University',
-      type: 'Central University',
-      ranking: '#5',
-      location: 'Delhi',
-      avgPackage: '₹12 LPA',
-      placements: '85%',
-      icon: '🎓'
-    },
-    {
-      id: 3,
-      name: 'AIIMS Delhi',
-      type: 'Medical',
-      ranking: '#2',
-      location: 'Delhi',
-      avgPackage: 'N/A',
-      placements: 'Hospital Posts',
-      icon: '🏥'
-    },
-    {
-      id: 4,
-      name: 'National Law School',
-      type: 'Law',
-      ranking: '#1',
-      location: 'Bangalore',
-      avgPackage: '₹15 LPA',
-      placements: '92%',
-      icon: '⚖️'
-    },
-    {
-      id: 5,
-      name: 'IIM Ahmedabad',
-      type: 'Management',
-      ranking: '#1',
-      location: 'Ahmedabad',
-      avgPackage: '₹28 LPA',
-      placements: '100%',
-      icon: '💼'
-    },
-    {
-      id: 6,
-      name: 'St. Stephen\'s College',
-      type: 'Arts',
-      ranking: '#3',
-      location: 'Delhi',
-      avgPackage: '₹8 LPA',
-      placements: '78%',
-      icon: '📚'
-    }
-  ];
+  const collegeA = collegesData.find(c => c.id === collegeAId);
+  const collegeB = collegesData.find(c => c.id === collegeBId);
 
-  const toggleCollege = (collegeId) => {
-    if (selectedColleges.includes(collegeId)) {
-      setSelectedColleges(selectedColleges.filter(id => id !== collegeId));
-    } else if (selectedColleges.length < 3) {
-      setSelectedColleges([...selectedColleges, collegeId]);
+  const handleEmailSubmit = (e) => {
+    e.preventDefault();
+    if (!email || !email.includes('@')) {
+      setSubmitStatus({ submitted: true, success: false, msg: 'Please enter a valid email address.' });
+      return;
     }
+    
+    // Simulate API registration
+    setSubmitStatus({ 
+      submitted: true, 
+      success: true, 
+      msg: '🚀 Awesome! We will notify you as soon as our full 500+ college database goes live.' 
+    });
+    setEmail('');
   };
 
-  const selectedCollegeData = colleges.filter(c => selectedColleges.includes(c.id));
-
   return (
-    <div className="compare-colleges">
-      <div className="compare-header">
-        <h1>🏫 Compare Colleges</h1>
-        <p>Select up to 3 colleges to compare features, placements, and more</p>
-      </div>
+    <div className="compare-colleges-page animate-fade-in">
+      <div className="compare-bg-glow"></div>
+      
+      <div className="section-container">
+        {/* Header */}
+        <div className="compare-page-header">
+          <span className="badge-pill compare-badge">
+            <ArrowLeftRight size={12} className="badge-icon" />
+            No-Rankings Comparison
+          </span>
+          <h1>Compare Colleges Beyond Rank</h1>
+          <p>
+            Rankings are often skewed. Compare India's top colleges side-by-side on real, 
+            practical parameters that actually shape your future, your daily lifestyle, and campus happiness.
+          </p>
+        </div>
 
-      <div className="compare-container">
-        <div className="colleges-list">
-          <h2>Available Colleges</h2>
-          <div className="colleges-grid">
-            {colleges.map(college => (
-              <div 
-                key={college.id} 
-                className={`college-item ${selectedColleges.includes(college.id) ? 'selected' : ''}`}
-                onClick={() => toggleCollege(college.id)}
+        {/* Dropdown Selectors */}
+        <div className="comparison-selectors glass-card">
+          <div className="selector-col">
+            <label htmlFor="collegeA">Select College A</label>
+            <div className="select-wrapper">
+              <select 
+                id="collegeA"
+                value={collegeAId}
+                onChange={(e) => setCollegeAId(e.target.value)}
               >
-                <div className="college-icon">{college.icon}</div>
-                <h3>{college.name}</h3>
-                <p className="college-type">{college.type}</p>
-                <p className="ranking">Ranking: {college.ranking}</p>
-                <p className="location">📍 {college.location}</p>
-                <div className="checkbox">
-                  {selectedColleges.includes(college.id) && <span>✓</span>}
-                </div>
-              </div>
-            ))}
+                {collegesData.map(c => (
+                  <option key={c.id} value={c.id} disabled={c.id === collegeBId}>
+                    {c.icon} {c.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="comparison-icon-divider">
+            <ArrowLeftRight size={20} className="divider-arrows" />
+          </div>
+
+          <div className="selector-col">
+            <label htmlFor="collegeB">Select College B</label>
+            <div className="select-wrapper">
+              <select 
+                id="collegeB"
+                value={collegeBId}
+                onChange={(e) => setCollegeBId(e.target.value)}
+              >
+                {collegesData.map(c => (
+                  <option key={c.id} value={c.id} disabled={c.id === collegeAId}>
+                    {c.icon} {c.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 
-        {selectedCollegeData.length > 0 && (
-          <div className="comparison-table">
-            <h2>Comparison Details</h2>
-            <div className="table-responsive">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Criteria</th>
-                    {selectedCollegeData.map(college => (
-                      <th key={college.id}>{college.name}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Type</td>
-                    {selectedCollegeData.map(college => (
-                      <td key={college.id}>{college.type}</td>
-                    ))}
-                  </tr>
-                  <tr>
-                    <td>Location</td>
-                    {selectedCollegeData.map(college => (
-                      <td key={college.id}>{college.location}</td>
-                    ))}
-                  </tr>
-                  <tr>
-                    <td>Ranking</td>
-                    {selectedCollegeData.map(college => (
-                      <td key={college.id} className="highlight">{college.ranking}</td>
-                    ))}
-                  </tr>
-                  <tr>
-                    <td>Avg Package</td>
-                    {selectedCollegeData.map(college => (
-                      <td key={college.id} className="highlight">{college.avgPackage}</td>
-                    ))}
-                  </tr>
-                  <tr>
-                    <td>Placement Rate</td>
-                    {selectedCollegeData.map(college => (
-                      <td key={college.id} className="highlight">{college.placements}</td>
-                    ))}
-                  </tr>
-                </tbody>
-              </table>
+        {/* Comparison Grid */}
+        <div className="comparison-results-grid">
+          {/* Factor 1: Placements */}
+          <div className="comparison-row glass-card">
+            <div className="factor-heading-col">
+              <Award className="factor-icon text-orange" size={24} />
+              <h4>Average Placements</h4>
+              <span className="factor-sub">Entry salary & recruiters</span>
+            </div>
+            
+            <div className="college-data-cols">
+              <div className="college-data-col border-right">
+                <span className="college-name-badge">{collegeA.name}</span>
+                <p className="factor-text">{collegeA.placements}</p>
+              </div>
+              <div className="college-data-col">
+                <span className="college-name-badge">{collegeB.name}</span>
+                <p className="factor-text">{collegeB.placements}</p>
+              </div>
             </div>
           </div>
-        )}
+
+          {/* Factor 2: Campus Life */}
+          <div className="comparison-row glass-card">
+            <div className="factor-heading-col">
+              <Heart className="factor-icon text-rose" size={24} />
+              <h4>Campus Life</h4>
+              <span className="factor-sub">Fests, hostels & infrastructure</span>
+            </div>
+            
+            <div className="college-data-cols">
+              <div className="college-data-col border-right">
+                <span className="college-name-badge">{collegeA.name}</span>
+                <p className="factor-text">{collegeA.campusLife}</p>
+              </div>
+              <div className="college-data-col">
+                <span className="college-name-badge">{collegeB.name}</span>
+                <p className="factor-text">{collegeB.campusLife}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Factor 3: Research */}
+          <div className="comparison-row glass-card">
+            <div className="factor-heading-col">
+              <Sparkles className="factor-icon text-indigo" size={24} />
+              <h4>Research Focus</h4>
+              <span className="factor-sub">Patents, labs & funding</span>
+            </div>
+            
+            <div className="college-data-cols">
+              <div className="college-data-col border-right">
+                <span className="college-name-badge">{collegeA.name}</span>
+                <p className="factor-text">{collegeA.research}</p>
+              </div>
+              <div className="college-data-col">
+                <span className="college-name-badge">{collegeB.name}</span>
+                <p className="factor-text">{collegeB.research}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Factor 4: Culture */}
+          <div className="comparison-row glass-card">
+            <div className="factor-heading-col">
+              <Users className="factor-icon text-teal" size={24} />
+              <h4>Peer Culture</h4>
+              <span className="factor-sub">Workload & study environment</span>
+            </div>
+            
+            <div className="college-data-cols">
+              <div className="college-data-col border-right">
+                <span className="college-name-badge">{collegeA.name}</span>
+                <p className="factor-text">{collegeA.culture}</p>
+              </div>
+              <div className="college-data-col">
+                <span className="college-name-badge">{collegeB.name}</span>
+                <p className="factor-text">{collegeB.culture}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Coming Soon Email Capture */}
+        <section className="coming-soon-email-section glass-card">
+          <div className="coming-soon-glow"></div>
+          <div className="coming-soon-content">
+            <span className="badge-pill coming-soon-pill">
+              <Sparkles size={12} className="badge-icon" />
+              Expanding Database
+            </span>
+            <h3>Unlock 500+ Indian Colleges</h3>
+            <p>
+              We are compiling honest reviews, placement data, and hostel feedback for 500+ engineering, 
+              medical, commerce, and liberal arts colleges across India. Sign up to get notified when we launch.
+            </p>
+
+            <form onSubmit={handleEmailSubmit} className="email-form">
+              <div className="input-wrapper">
+                <Mail className="mail-icon" size={18} />
+                <input 
+                  type="email" 
+                  placeholder="Enter your email address" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <button type="submit" className="btn btn-primary form-btn">
+                Notify Me
+              </button>
+            </form>
+
+            {submitStatus.submitted && (
+              <p className={`form-message ${submitStatus.success ? 'success' : 'error'}`}>
+                {submitStatus.msg}
+              </p>
+            )}
+          </div>
+        </section>
       </div>
     </div>
   );

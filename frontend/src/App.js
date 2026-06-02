@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Home from './pages/Home';
 import StreamSelection from './pages/StreamSelection';
 import ExploreStreams from './pages/ExploreStreams';
+import StreamDetail from './pages/StreamDetail';
 import ExamDates from './pages/ExamDates';
 import CompareColleges from './pages/CompareColleges';
 import Login from './pages/Login';
@@ -29,6 +30,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/stream-choice/:level" element={<StreamSelection />} />
             <Route path="/explore-streams" element={<ExploreStreams />} />
+            <Route path="/stream/:streamId" element={<StreamDetail />} />
             <Route path="/exam-dates" element={<ExamDates />} />
             <Route path="/compare-colleges" element={<CompareColleges />} />
             <Route path="/login" element={<Login />} />

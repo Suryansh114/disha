@@ -1,13 +1,21 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { LogOut, GraduationCap } from 'lucide-react';
 import './Header.css';
 
 function Header({ user }) {
-  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     localStorage.removeItem('user');
     window.location.reload();
+  };
+
+  const isActive = (path) => {
+    if (path === '/') {
+      return location.pathname === '/';
+    }
+    return location.pathname.startsWith(path);
   };
 
   return (
@@ -15,26 +23,37 @@ function Header({ user }) {
       <div className="header-container">
         <div className="logo">
           <Link to="/">
-            <span className="logo-icon">⊙</span>
+            <GraduationCap className="logo-icon-svg" />
             <span className="logo-text">Disha</span>
           </Link>
         </div>
         <nav className="nav">
-          <Link to="/">Home</Link>
-          <Link to="/explore-streams">Explore Streams</Link>
-          <Link to="/exam-dates">Exam Dates</Link>
-          <Link to="/compare-colleges">Compare Colleges</Link>
+          <Link to="/" className={isActive('/') ? 'nav-link active' : 'nav-link'}>
+            Home
+          </Link>
+          <Link to="/explore-streams" className={isActive('/explore-streams') || isActive('/stream') ? 'nav-link active' : 'nav-link'}>
+            Explore Streams
+          </Link>
+          <Link to="/exam-dates" className={isActive('/exam-dates') ? 'nav-link active' : 'nav-link'}>
+            Exam Dates
+          </Link>
+          <Link to="/compare-colleges" className={isActive('/compare-colleges') ? 'nav-link active' : 'nav-link'}>
+            Compare Colleges
+          </Link>
         </nav>
         <div className="header-actions">
           {user ? (
             <div className="user-menu">
-              <span className="user-name">{user.name}</span>
-              <button className="logout-btn" onClick={handleLogout}>Logout</button>
+              <span className="user-name">👋 {user.name}</span>
+              <button className="logout-btn" onClick={handleLogout}>
+                <LogOut size={14} />
+                <span>Logout</span>
+              </button>
             </div>
           ) : (
             <div className="auth-buttons">
               <Link to="/login" className="btn-login">Login</Link>
-              <Link to="/signup" className="btn-signup">Sign Up</Link>
+              <Link to="/signup" className="btn btn-primary btn-signup-header">Sign Up</Link>
             </div>
           )}
         </div>
