@@ -36,6 +36,9 @@ async function seed() {
         type: 'Private',
         website: 'https://disha-tech.edu',
         establishedYear: 2008,
+        feesROI: 'Moderate ROI. Tuition fees of ₹1.8-2.0 LPA. Placements average around ₹5.5 LPA, with tech recruiters leading.',
+        admissionDifficulty: 'Moderate. Admission via state entrance test MHT-CET or JEE Main scores.',
+        infrastructure: 'Decent facilities including modern computer labs, high-speed Wi-Fi, seminar halls, library, and on-campus hostel accommodation.'
       },
       {
         name: 'Disha Medical College',
@@ -44,6 +47,9 @@ async function seed() {
         type: 'Government',
         website: 'https://disha-med.edu',
         establishedYear: 2012,
+        feesROI: 'Excellent ROI. Government subsidised tuition fees of ₹50,000 per year. Post-graduation starting salaries average ₹8-12 LPA.',
+        admissionDifficulty: 'High. Requires securing a high score in NEET UG entrance exam.',
+        infrastructure: 'Equipped with anatomical museums, physiology labs, functional clinical training clinics, library, and doctor hostel rooms.'
       },
     ]);
 
@@ -92,6 +98,72 @@ async function seed() {
         fees: '₹5,00,000 per year',
         degree: 'MBBS',
       },
+      {
+        name: 'BCA (Bachelor of Computer Applications)',
+        code: 'BCA',
+        description: 'Undergraduate course in computer applications and software development.',
+        stream: streams.find(s => s.name === 'Engineering')._id,
+        college: colleges[0]._id,
+        duration: '3 years',
+        eligibility: '10+2 with Math/IP',
+        fees: '₹90,000 per year',
+        degree: 'BCA',
+      },
+      {
+        name: 'B.Sc (Hons) in Computer Science',
+        code: 'B.Sc CS',
+        description: 'Three-year academic program focusing on computer science concepts.',
+        stream: streams.find(s => s.name === 'Engineering')._id,
+        college: colleges[0]._id,
+        duration: '3 years',
+        eligibility: '10+2 with PCM',
+        fees: '₹75,000 per year',
+        degree: 'B.Sc',
+      },
+      {
+        name: 'BDS (Bachelor of Dental Surgery)',
+        code: 'BDS',
+        description: 'Undergraduate training in dental surgery and oral health.',
+        stream: streams.find(s => s.name === 'Medical')._id,
+        college: colleges[1]._id,
+        duration: '5 years',
+        eligibility: '10+2 with PCB + NEET',
+        fees: '₹3,00,000 per year',
+        degree: 'BDS',
+      },
+      {
+        name: 'B.Pharm (Bachelor of Pharmacy)',
+        code: 'B.Pharm',
+        description: 'Four-year program in pharmaceutical sciences and drug formulation.',
+        stream: streams.find(s => s.name === 'Medical')._id,
+        college: colleges[1]._id,
+        duration: '4 years',
+        eligibility: '10+2 with PCB/PCM',
+        fees: '₹1,20,000 per year',
+        degree: 'B.Pharm',
+      },
+      {
+        name: 'B.A. (Hons) in Economics',
+        code: 'B.A. Econ',
+        description: 'Undergraduate degree focusing on economic systems and analysis.',
+        stream: streams.find(s => s.name === 'Commerce')._id,
+        college: colleges[0]._id,
+        duration: '3 years',
+        eligibility: '10+2 with Math',
+        fees: '₹60,000 per year',
+        degree: 'B.A.',
+      },
+      {
+        name: 'BFIA (Bachelor of Financial & Investment Analysis)',
+        code: 'BFIA',
+        description: 'Integrated finance degree with stock market and portfolio study.',
+        stream: streams.find(s => s.name === 'Commerce')._id,
+        college: colleges[0]._id,
+        duration: '3 years',
+        eligibility: '10+2 with Math',
+        fees: '₹1,10,000 per year',
+        degree: 'BFIA',
+      }
     ];
 
     const courses = await Course.create(courseData);

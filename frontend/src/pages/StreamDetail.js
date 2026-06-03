@@ -11,10 +11,10 @@ const streamDetailData = {
     icon: '⚙️',
     description: 'The foundation for engineering, technology, design, and physical science careers in India.',
     stats: {
-      subjects: 'Physics, Chemistry, Maths, English, CS/PE',
+      subjects: 'Physics, Chemistry, Maths, English, Computer Science , Physical Education',
       careers: '45+ career pathways',
-      salary: '₹6 LPA - ₹35+ LPA',
-      demand: 'Very High (Tech & Data)'
+      salary: '₹10 LPA - ₹25+ LPA',
+      demand: 'Very High (Tech, Research & Data)'
     },
     study: {
       overview: 'Science PCM focuses on understanding physical laws, chemical behaviors, and advanced mathematical structures. In Class 11 & 12, the syllabus undergoes a massive jump from Class 10. You will transition from basic sciences to advanced calculus, mechanics, and organic chemistry mechanisms.',
@@ -555,7 +555,7 @@ function StreamDetail() {
           <div className="tab-pane animate-fade-in">
             <h3 className="tab-section-title">The Honest Take</h3>
             <p className="tab-overview">Brutally honest insights from students who have been in your shoes. No sugarcoating.</p>
-            
+
             <div className="honest-two-col">
               <div className="honest-col great-col glass-card">
                 <h4 className="col-header text-teal"><ThumbsUp size={16} /> What's Great ✓</h4>
@@ -607,9 +607,9 @@ function StreamDetail() {
                       <h5>{job.title}</h5>
                       <span className={`demand-badge ${job.demand.toLowerCase()}`}>{job.demand} Demand</span>
                     </div>
-                    
+
                     <div className="career-salary">💰 {job.salary}</div>
-                    
+
                     <div className="effort-bars">
                       <div className="bar-wrapper">
                         <span className="bar-label">Effort Required</span>
@@ -643,9 +643,9 @@ function StreamDetail() {
                       <h5>{job.title}</h5>
                       <span className={`demand-badge ${job.demand.toLowerCase()}`}>{job.demand} Demand</span>
                     </div>
-                    
+
                     <div className="career-salary">💰 {job.salary}</div>
-                    
+
                     <div className="effort-bars">
                       <div className="bar-wrapper">
                         <span className="bar-label">Effort Required</span>
@@ -676,7 +676,7 @@ function StreamDetail() {
           <div className="tab-pane animate-fade-in">
             <h3 className="tab-section-title">Critical Entrance Exams</h3>
             <p className="tab-overview">These are the major competitive tests required for admissions after Class 12 in India.</p>
-            
+
             <div className="exams-list-detail">
               {stream.exams.map((exam, idx) => (
                 <div key={idx} className="exam-detail-card glass-card">
@@ -737,7 +737,7 @@ function StreamDetail() {
             <ArrowLeft size={16} />
             <span>All Streams</span>
           </button>
-          
+
           <div className="detail-header-info">
             <div className="detail-icon-large">{stream.icon}</div>
             <div>
@@ -776,39 +776,39 @@ function StreamDetail() {
       <section className="tabs-navigation-section">
         <div className="section-container tabs-container">
           <div className="tabs-bar glass-card">
-            <button 
+            <button
               className={`tab-btn ${activeTab === 'study' ? 'active' : ''}`}
               onClick={() => setActiveTab('study')}
             >
               <BookOpen size={16} />
               <span>Study</span>
             </button>
-            
-            <button 
+
+            <button
               className={`tab-btn ${activeTab === 'honest' ? 'active' : ''}`}
               onClick={() => setActiveTab('honest')}
             >
               <ThumbsUp size={16} />
               <span>Honest Take</span>
             </button>
-            
-            <button 
+
+            <button
               className={`tab-btn ${activeTab === 'careers' ? 'active' : ''}`}
               onClick={() => setActiveTab('careers')}
             >
               <Briefcase size={16} />
               <span>Careers</span>
             </button>
-            
-            <button 
+
+            <button
               className={`tab-btn ${activeTab === 'exams' ? 'active' : ''}`}
               onClick={() => setActiveTab('exams')}
             >
               <Calendar size={16} />
               <span>Exams</span>
             </button>
-            
-            <button 
+
+            <button
               className={`tab-btn ${activeTab === 'courses' ? 'active' : ''}`}
               onClick={() => setActiveTab('courses')}
             >

@@ -183,6 +183,11 @@
   animation: slideUp 0.5s ease-out;
 }
 
+.sticky-bottom-bar:hover {
+  transform: translateX(-50%) translateY(-4px) !important;
+}
+
+
 .bar-info {
   display: flex;
   align-items: center;
