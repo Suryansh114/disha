@@ -230,12 +230,13 @@ function ExamDates() {
             <div className="exams-header">
               <span className="badge-pill exams-badge">
                 <CalendarIcon size={12} className="badge-icon" />
-                National Deadline Tracker
+                Your Personal Exam Planner
               </span>
-              <h1>Which exams are you giving this year?</h1>
+              <h1>Which exams are you sitting for this year?</h1>
               <p>
-                Select the exams you plan to write. We'll build a custom visual timeline calendar 
-                highlighting test days and result days so you don't miss critical deadlines.
+                Tick the ones you're planning to write — JEE, NEET, CLAT, CUET, or anything else.
+                We'll lay them out on a clean calendar so exam days and result dates are always front of mind.
+                No more hunting through government websites.
               </p>
             </div>
 
@@ -290,28 +291,29 @@ function ExamDates() {
             <div className="sticky-bottom-bar glass-card">
               <div className="bar-info">
                 <span className="count-badge">{selectedExams.length}</span>
-                <span>Exams Selected for Tracking</span>
+                <span>{selectedExams.length === 1 ? '1 exam selected' : `${selectedExams.length} exams selected`}</span>
               </div>
               <button 
                 className="btn btn-primary"
                 disabled={selectedExams.length === 0}
                 onClick={() => setShowCalendar(true)}
               >
-                Build My Calendar →
+                {selectedExams.length === 0 ? 'Pick at least one exam' : 'Build My Calendar →'}
               </button>
             </div>
           </div>
         ) : (
           /* SECTION 2: THE CUSTOM RENDERED CALENDAR VIEW */
           <div className="calendar-view animate-slide-up">
-            <button className="back-btn-selection" onClick={() => setShowCalendar(false)}>
+            <button 
+                className="back-btn-selection" onClick={() => setShowCalendar(false)}>
               <ChevronLeft size={16} />
-              <span>Change Selected Exams</span>
+              <span>← Edit my exam list</span>
             </button>
 
             <div className="calendar-header-section">
-              <h2>Your Custom Exam Calendar (2026)</h2>
-              <p>Visualizing test dates and result deadlines for your tracked entries. Hover over highlighted days to inspect events.</p>
+              <h2>Your Exam Calendar — 2026</h2>
+              <p>Coloured dots = your exam or result days. Hover any dot to see what's happening. Switch months using the arrows.</p>
             </div>
 
             {/* Calendar Controls */}

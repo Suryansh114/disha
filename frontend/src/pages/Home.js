@@ -20,13 +20,13 @@ function Home() {
           </span>
           
           <h1 className="hero-title animate-slide-up">
-            Figure out your next step. <br />
-            <span className="text-gradient-accent">Without the pressure or jargon.</span>
+            You just finished class. <br />
+            <span className="text-gradient-accent">Now what?</span>
           </h1>
           
           <p className="hero-subtitle">
-            Choosing a stream or career path shouldn't feel like a high-stakes gamble. 
-            Get clear, brutally honest career paths, critical exam trackers, and zero sales pitches.
+            The pressure to "pick the right path" hits hard after 10th and 12th. Disha cuts through the noise — 
+            honest stream comparisons, real career outlooks, and critical exam dates. All in one place. All free.
           </p>
           
           <div className="hero-ctas">
@@ -122,22 +122,26 @@ function Home() {
               <span className="why-badge-pill">OUR MISSION</span>
               <h2 className="why-title">Why we built Disha</h2>
               <p>
-                In India, completing Class 10 and 12 is often treated like a final judgment. Relatives start asking questions, advertisements scream about Coaching Institutes promising 99.9 percentiles, and parents want you to be safe.
+                In India, the moment you finish Class 10 or 12, everyone around you 
+                seems to have an opinion about what you should do next. Relatives suggest engineering, 
+                ads scream about coaching centers, and parents push for "safe" choices.
               </p>
               <p>
-                Amidst this chaos, <strong>the student is left alone</strong>, feeling overwhelmed, pressured, and forced into paths they barely understand. 
+                Meanwhile, <strong>you’re standing in the middle of it all</strong>, trying to figure out 
+                what you actually want — without a clear picture of what each path really looks like day to day.
               </p>
               <p>
-                We built Disha to be the voice we wish we had when we were 16. We don't sell coaching. We don't partner with colleges for referrals. We just compile clean, honest, student-first facts to help you find your footing.
+                We built Disha to be the honest friend you wish you had when you were 16. 
+                No coaching sales. No college referral money. Just real info, student-first.
               </p>
               <div className="why-feature-points">
                 <div className="why-point">
                   <div className="why-point-bullet">✓</div>
-                  <div><strong>No Jargon:</strong> Clear terms, simplified explanations, and relatable insights.</div>
+                  <div><strong>No Jargon:</strong> Everything explained in plain language — the way a senior student would explain it to you.</div>
                 </div>
                 <div className="why-point">
                   <div className="why-point-bullet">✓</div>
-                  <div><strong>India-Specific:</strong> Focuses on actual career realities here, including LPA salaries, JEE/NEET ranks, and local options.</div>
+                  <div><strong>India-Specific:</strong> JEE, NEET, LPA salaries, state board realities — not generic global advice.</div>
                 </div>
               </div>
             </div>
@@ -147,7 +151,9 @@ function Home() {
               <AlertCircle size={32} className="editorial-icon" />
               <h4>A Quick Reality Check</h4>
               <blockquote className="editorial-quote">
-                "IITs/AIIMS are incredible, but they are not the only ways to build a good life. In India, there are 250+ other careers opening up. Take a deep breath. You're going to figure this out."
+                "IITs and AIIMS are genuinely incredible places. But they're not the only roads to a great life. 
+                There are 250+ career paths in India that most people never hear about. Take a breath. 
+                You have more options than you think."
               </blockquote>
               <div className="editorial-author">— Team Disha</div>
             </div>
@@ -159,8 +165,8 @@ function Home() {
       <section className="testimonials-section">
         <div className="section-container">
           <div className="section-header">
-            <h2 className="section-title">What other students say</h2>
-            <p className="section-subtitle">Real feedback from 10th and 12th graders across CBSE, ICSE, and State Boards.</p>
+            <h2 className="section-title">What real students are saying</h2>
+          <p className="section-subtitle">From students across CBSE, ICSE, and State Boards who used Disha to cut through the confusion.</p>
           </div>
 
           <div className="testimonials-grid">
@@ -213,8 +219,8 @@ function Home() {
       <section className="closing-cta-section">
         <div className="closing-glow"></div>
         <div className="closing-container">
-          <h2 className="closing-title">Ready to figure out your next step?</h2>
-          <p className="closing-subtitle">No stress, no pressure. Choose where you are currently at, and explore your choices at your own pace.</p>
+          <h2 className="closing-title">Ready to sort out your next step?</h2>
+          <p className="closing-subtitle">No fees, no signup, no pressure. Just pick where you are right now and start exploring at your own pace.</p>
           <div className="closing-buttons">
             <button 
               className="btn btn-primary"

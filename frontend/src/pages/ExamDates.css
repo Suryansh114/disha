@@ -192,6 +192,24 @@
   font-size: 1rem;
 }
 
+/* Fix: prevent btn-primary inside the fixed sticky bar from triggering
+   the global translateY(-2px) hover — that transform stacks with the bar's
+   own translateX(-50%) and causes visible bar movement on hover */
+.sticky-bottom-bar .btn-primary {
+  transform: none !important;
+}
+
+.sticky-bottom-bar .btn-primary:hover {
+  transform: none !important;
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.55);
+  filter: brightness(1.1);
+}
+
+.sticky-bottom-bar .btn-primary:active {
+  transform: none !important;
+  filter: brightness(0.95);
+}
+
 .count-badge {
   background: var(--accent-primary);
   width: 28px;
