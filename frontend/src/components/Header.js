@@ -1,14 +1,16 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { LogOut, GraduationCap } from 'lucide-react';
 import './Header.css';
 
-function Header({ user }) {
+function Header({ user, setUser }) {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('user');
-    window.location.reload();
+    setUser(null);
+    navigate('/');
   };
 
   const isActive = (path) => {

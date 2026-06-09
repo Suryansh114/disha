@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import './Auth.css';
 
-function Login() {
+function Login({ setUser }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const fromPath = location.state?.from?.pathname || '/';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,8 +19,10 @@ function Login() {
     try {
       // Simulate API call
       if (email && password.length >= 6) {
-        localStorage.setItem('user', JSON.stringify({ email, name: email.split('@')[0] }));
-        navigate('/');
+        const user = { email, name: email.split('@')[0] };
+        localStorage.setItem('user', JSON.stringify(user));
+        if (setUser) setUser(user);
+        navigate(fromPath, { replace: true });
       } else {
         setError('Invalid credentials');
       }
@@ -38,6 +42,11 @@ function Login() {
 
           {error && <div className="error-message">{error}</div>}
 
+          {fromPath !== '/' && (
+            <div className="auth-notice">
+              Sign in to continue to <strong>{fromPath}</strong>
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
               <label>Email Address</label>

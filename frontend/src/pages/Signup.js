@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import './Auth.css';
 
-function Signup() {
+function Signup({ setUser }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,6 +13,8 @@ function Signup() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const fromPath = location.state?.from?.pathname || '/';
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,12 +41,14 @@ function Signup() {
       }
 
       // Simulate API call
-      localStorage.setItem('user', JSON.stringify({ 
+      const user = {
         name: formData.name,
         email: formData.email,
-        class: formData.class 
-      }));
-      navigate('/');
+        class: formData.class
+      };
+      localStorage.setItem('user', JSON.stringify(user));
+      if (setUser) setUser(user);
+      navigate(fromPath, { replace: true });
     } catch (err) {
       setError('Signup failed. Please try again.');
     } finally {
@@ -125,6 +129,11 @@ function Signup() {
             </button>
           </form>
 
+          {fromPath !== '/' && (
+            <div className="auth-notice">
+              Sign up to continue to <strong>{fromPath}</strong>
+            </div>
+          )}
           <div className="divider">or</div>
 
           <button className="social-btn google-btn">
