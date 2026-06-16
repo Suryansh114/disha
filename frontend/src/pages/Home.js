@@ -6,14 +6,6 @@ import './Home.css';
 function Home({ user }) {
   const navigate = useNavigate();
 
-  const handleNavigation = (path) => {
-    if (user) {
-      navigate(path);
-    } else {
-      navigate('/login', { state: { from: { pathname: path } }, replace: true });
-    }
-  };
-
   return (
     <div className="home-page animate-fade-in">
       {/* Hero Section */}
@@ -40,14 +32,14 @@ function Home({ user }) {
           <div className="hero-ctas">
             <button 
               className="btn btn-primary hero-btn"
-              onClick={() => handleNavigation('/stream-choice/10th')}
+              onClick={() => navigate('/after-10th')}
             >
               I just finished 10th
               <span className="arrow-icon">→</span>
             </button>
             <button 
               className="btn btn-secondary hero-btn"
-              onClick={() => handleNavigation('/stream-choice/12th')}
+              onClick={() => navigate('/after-12th')}
             >
               I just finished 12th
               <span className="arrow-icon">→</span>
@@ -76,7 +68,7 @@ function Home({ user }) {
             {/* Feature Card 1 */}
             <div 
               className="feature-card glass-card"
-              onClick={() => handleNavigation('/explore-streams')}
+              onClick={() => navigate('/explore-streams')}
             >
               <div className="feature-icon-wrapper pcm-theme">
                 <Compass size={24} className="feature-icon" />
@@ -91,7 +83,7 @@ function Home({ user }) {
             {/* Feature Card 2 */}
             <div 
               className="feature-card glass-card"
-              onClick={() => handleNavigation('/exam-dates')}
+              onClick={() => navigate('/exam-dates')}
             >
               <div className="feature-icon-wrapper pcb-theme">
                 <Calendar size={24} className="feature-icon" />
@@ -106,7 +98,7 @@ function Home({ user }) {
             {/* Feature Card 3 */}
             <div 
               className="feature-card glass-card coming-soon"
-              onClick={() => handleNavigation('/compare-colleges')}
+              onClick={() => navigate('/compare-colleges')}
             >
               <div className="feature-icon-wrapper arts-theme">
                 <Split size={24} className="feature-icon" />
@@ -232,13 +224,13 @@ function Home({ user }) {
           <div className="closing-buttons">
             <button 
               className="btn btn-primary"
-              onClick={() => handleNavigation('/stream-choice/10th')}
+              onClick={() => navigate('/after-10th')}
             >
               I just finished 10th
             </button>
             <button 
               className="btn btn-secondary"
-              onClick={() => handleNavigation('/stream-choice/12th')}
+              onClick={() => navigate('/after-12th')}
             >
               I just finished 12th
             </button>

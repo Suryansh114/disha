@@ -49,7 +49,7 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
   position: relative;
   z-index: 1;
 }
@@ -64,6 +64,9 @@
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition-smooth);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .filter-chip:hover {
@@ -76,6 +79,167 @@
   border-color: var(--accent-primary);
   color: #fff;
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.chip-remove {
+  background: rgba(0,0,0,0.15);
+  border-radius: 50%;
+  padding: 2px;
+  margin-left: 2px;
+}
+
+.chip-remove:hover {
+  background: rgba(0,0,0,0.3);
+}
+
+/* Search Row */
+.exams-search-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.exam-search-input {
+  width: 100%;
+  padding: 12px 40px 12px 44px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 9999px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  transition: var(--transition-smooth);
+}
+
+.exam-search-input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.search-clear-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Active Filters Row */
+.active-filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.active-filters-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.active-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-primary);
+  background: var(--accent-primary-glow);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  padding: 4px 10px;
+  border-radius: 9999px;
+}
+
+.chip-x-btn {
+  background: transparent;
+  border: none;
+  color: var(--accent-primary);
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.chip-x-btn:hover {
+  background: rgba(99, 102, 241, 0.2);
+}
+
+.clear-all-filters-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 4px 8px;
+}
+
+.clear-all-filters-btn:hover {
+  color: var(--text-primary);
+}
+
+/* Empty State */
+.exams-empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: var(--glass-bg);
+  border: 1px dashed var(--glass-border);
+  border-radius: var(--border-radius-lg);
+  margin-top: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.empty-icon {
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.exams-empty-state h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.exams-empty-state p {
+  color: var(--text-secondary);
+  margin-bottom: 24px;
 }
 
 /* Selectable Exam Cards */
