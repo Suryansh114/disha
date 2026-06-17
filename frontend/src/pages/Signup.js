@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { supabase } from '../supabaseclient';
 import './Auth.css';
 
 function Signup({ setUser }) {
@@ -25,34 +26,39 @@ function Signup({ setUser }) {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+    e.preventDefault()
+    setLoading(true)
+    setError('')
 
     try {
       if (formData.password !== formData.confirmPassword) {
-        setError('Passwords do not match');
-        return;
+        setError('Passwords do not match')
+        return
       }
-
       if (formData.password.length < 6) {
-        setError('Password must be at least 6 characters');
-        return;
+        setError('Password must be at least 6 characters')
+        return
       }
 
-      // Simulate API call
-      const user = {
-        name: formData.name,
+      const { data, error } = await supabase.auth.signUp({
         email: formData.email,
-        class: formData.class
-      };
-      localStorage.setItem('user', JSON.stringify(user));
-      if (setUser) setUser(user);
-      navigate(fromPath, { replace: true });
+        password: formData.password,
+        options: {
+          data: {
+            name: formData.name,
+            class: formData.class
+          }
+        }
+      })
+      if (error) throw error
+
+      const user = { email: formData.email, name: formData.name, class: formData.class }
+      if (setUser) setUser(user)
+      navigate(fromPath, { replace: true })
     } catch (err) {
-      setError('Signup failed. Please try again.');
+      setError(err.message || 'Signup failed. Please try again.')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   };
 

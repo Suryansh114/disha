@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { supabase } from '../supabaseclient';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import './Auth.css';
 
@@ -12,24 +13,21 @@ function Login({ setUser }) {
   const fromPath = location.state?.from?.pathname || '/';
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+    e.preventDefault()
+    setLoading(true)
+    setError('')
 
     try {
-      // Simulate API call
-      if (email && password.length >= 6) {
-        const user = { email, name: email.split('@')[0] };
-        localStorage.setItem('user', JSON.stringify(user));
-        if (setUser) setUser(user);
-        navigate(fromPath, { replace: true });
-      } else {
-        setError('Invalid credentials');
-      }
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+      if (error) throw error
+
+      const user = { email: data.user.email, name: data.user.email.split('@')[0] }
+      if (setUser) setUser(user)
+      navigate(fromPath, { replace: true })
     } catch (err) {
-      setError('Login failed. Please try again.');
+      setError(err.message || 'Login failed. Please try again.')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   };
 

@@ -26,21 +26,18 @@ function ScrollToTop() {
 }
 
 function App() {
-  const [user, setUser] = useState(null);
-  const [userLoaded, setUserLoaded] = useState(false);
+  const [user, setUser] = useState(null)
+  const [session, setSession] = useState(null)
 
   useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      try {
-        setUser(JSON.parse(savedUser));
-      } catch (err) {
-        localStorage.removeItem('user');
-        setUser(null);
-      }
-    }
-    setUserLoaded(true);
-  }, []);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+      if (session?.user) setUser({ email: session.user.email, name: session.user.email.split('@')[0] })
+    })
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+    })
+  }, [])
 
   if (!userLoaded) {
     return null;
@@ -64,7 +61,7 @@ function App() {
               <Route path="/stream/:streamId" element={<StreamDetail />} />
               <Route path="/exam-dates" element={<ExamDates />} />
               <Route path="/compare-colleges" element={<CompareColleges />} />
-              
+
               <Route path="/login" element={<Login setUser={setUser} />} />
               <Route path="/signup" element={<Signup setUser={setUser} />} />
             </Routes>
