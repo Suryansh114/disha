@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { supabase } from './supabaseClient';
 import './App.css';
 import { ClassLevelProvider } from './context/ClassLevelContext';
 import Header from './components/Header';
@@ -27,17 +28,22 @@ function ScrollToTop() {
 
 function App() {
   const [user, setUser] = useState(null)
-  const [session, setSession] = useState(null)
+  const [session, setSession] = useState(null);
+  const [userLoaded, setUserLoaded] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-      if (session?.user) setUser({ email: session.user.email, name: session.user.email.split('@')[0] })
-    })
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
-  }, [])
+      setSession(session);
+      if (session?.user) setUser({ email: session.user.email, name: session.user.email.split('@')[0] });
+      setUserLoaded(true);
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+    return () => {
+      subscription?.unsubscribe();
+    };
+  }, []);
 
   if (!userLoaded) {
     return null;
