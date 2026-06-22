@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Calendar, X, Bell } from 'lucide-react';
+import './DeadlinesBanner.css';
 
 // Exam dates sourced from the ExamDates page mock data
 const UPCOMING_EXAMS = [
@@ -32,6 +33,7 @@ function DeadlinesBanner() {
       return false;
     }
   });
+  const [isDismissing, setIsDismissing] = useState(false);
 
   const upcoming = useMemo(() => {
     return UPCOMING_EXAMS
@@ -41,27 +43,43 @@ function DeadlinesBanner() {
       .slice(0, 3);
   }, []);
 
-  const dismiss = () => {
-    setDismissed(true);
-    try {
-      localStorage.setItem('disha_banner_dismissed', 'true');
-    } catch {
-      // ignore
-    }
+  const handleDismiss = () => {
+    setIsDismissing(true);
+    setTimeout(() => {
+      setDismissed(true);
+      try {
+        localStorage.setItem('disha_banner_dismissed', 'true');
+      } catch {
+        // ignore
+      }
+    }, 300);
   };
+
+  // Auto-dismiss after 5 seconds
+  useEffect(() => {
+    if (dismissed || upcoming.length === 0) return;
+    const timer = setTimeout(() => {
+      handleDismiss();
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [dismissed, upcoming]);
 
   if (dismissed || upcoming.length === 0) return null;
 
   return (
-    <div className="deadlines-banner" role="banner" aria-label="Upcoming exam deadlines">
+    <div 
+      className={`deadlines-banner ${isDismissing ? 'dismissing' : ''}`} 
+      role="banner" 
+      aria-label="Upcoming exam deadlines"
+    >
+      <span className="deadlines-banner-icon">
+        <Bell size={16} />
+      </span>
       <div className="deadlines-banner-inner">
-        <span className="deadlines-banner-icon">
-          <Bell size={14} />
-        </span>
         <div className="deadlines-list">
           {upcoming.map((exam) => (
             <span key={exam.id} className="deadline-chip">
-              <Calendar size={11} />
+              <Calendar size={12} />
               <strong>{exam.name}</strong>
               <span className={`days-badge ${exam.daysLeft <= 7 ? 'urgent' : ''}`}>
                 {exam.daysLeft === 0 ? 'Today!' : `${exam.daysLeft}d`}
@@ -71,10 +89,10 @@ function DeadlinesBanner() {
         </div>
         <button
           className="banner-dismiss"
-          onClick={dismiss}
+          onClick={handleDismiss}
           aria-label="Dismiss deadline banner"
         >
-          <X size={14} />
+          <X size={16} />
         </button>
       </div>
     </div>

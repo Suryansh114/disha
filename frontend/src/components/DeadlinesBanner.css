@@ -1,0 +1,117 @@
+.deadlines-banner {
+  position: fixed;
+  top: 90px;
+  right: 24px;
+  z-index: 1000;
+  width: 320px;
+  max-width: calc(100vw - 48px);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-glow);
+  border-left: 4px solid var(--accent-primary);
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: toast-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  backdrop-filter: blur(12px);
+}
+
+@keyframes toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(50px) translateY(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+.deadlines-banner.dismissing {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.deadlines-banner-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.deadlines-banner-inner {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  position: relative;
+}
+
+.deadlines-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
+  padding-right: 20px; /* Space for X button */
+}
+
+.deadline-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.deadline-chip strong {
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+.deadline-chip svg {
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.days-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  margin-left: auto;
+}
+
+.days-badge.urgent {
+  background: rgba(244, 63, 94, 0.15);
+  color: #fda4af; /* light rose */
+}
+
+.banner-dismiss {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: var(--transition-fast);
+}
+
+.banner-dismiss:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}

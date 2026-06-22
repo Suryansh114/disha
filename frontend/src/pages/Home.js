@@ -113,7 +113,7 @@ function Home({ user }) {
 
             {/* Feature Card 4 */}
             <div 
-              className="feature-card glass-card"
+              className="feature-card glass-card coming-soon"
               onClick={() => navigate('/get-consultancy')}
             >
               <div className="feature-icon-wrapper arts-theme">
