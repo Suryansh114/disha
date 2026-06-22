@@ -28,7 +28,7 @@ function ScrollToTop() {
 
 function App() {
   const [user, setUser] = useState(null)
-  const [session, setSession] = useState(null);
+  const [, setSession] = useState(null);
   const [userLoaded, setUserLoaded] = useState(false);
 
   useEffect(() => {
