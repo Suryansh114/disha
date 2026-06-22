@@ -32,6 +32,7 @@ function Header({ user, setUser }) {
     { path: '/after-12th', label: 'After 12th' },
     { path: '/exam-dates', label: 'Exam Dates' },
     { path: '/compare-colleges', label: 'Compare Colleges' },
+    { path: '/get-consultancy', label: 'Online Consultancy' },
   ];
 
   return (

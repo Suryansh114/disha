@@ -97,14 +97,14 @@ function Home({ user }) {
 
             {/* Feature Card 3 */}
             <div 
-              className="feature-card glass-card coming-soon"
+              className="feature-card glass-card"
               onClick={() => navigate('/compare-colleges')}
             >
               <div className="feature-icon-wrapper arts-theme">
                 <Split size={24} className="feature-icon" />
               </div>
               <h3 className="feature-card-title">Compare Colleges</h3>
-              <div className="badge-coming-soon">COMING SOON</div>
+              
               <p className="feature-card-desc">
                 Compare top universities side-by-side on real parameters like average placement package (LPA), research, and culture.
               </p>
@@ -120,10 +120,11 @@ function Home({ user }) {
                 <AlertCircle size={24} className="feature-icon" />
               </div>
               <h3 className="feature-card-title">Get Online Consultation</h3>
+               <div className="badge-coming-soon">COMING SOON</div>
               <p className="feature-card-desc">
                 1‑on‑1 face‑to‑face career counselling with expert counsellors at the lowest price ever.
               </p>
-              <button className="btn btn-secondary">Get Started</button>
+              <button className="btn btn-secondary" disabled>Notify Me</button>
             </div>
           </div>
         </div>
