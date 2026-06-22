@@ -15,6 +15,7 @@ import StreamDetail from './pages/StreamDetail';
 import ExamDates from './pages/ExamDates';
 import CompareColleges from './pages/CompareColleges';
 import Login from './pages/Login';
+import GetConsultancy from './pages/GetConsultancy';
 import Signup from './pages/Signup';
 
 // Scroll to top on route change
@@ -67,6 +68,7 @@ function App() {
               <Route path="/stream/:streamId" element={<StreamDetail />} />
               <Route path="/exam-dates" element={<ExamDates />} />
               <Route path="/compare-colleges" element={<CompareColleges />} />
+              <Route path="/get-consultancy" element={<GetConsultancy />} />
 
               <Route path="/login" element={<Login setUser={setUser} />} />
               <Route path="/signup" element={<Signup setUser={setUser} />} />

@@ -109,19 +109,21 @@ function Home({ user }) {
                 Compare top universities side-by-side on real parameters like average placement package (LPA), research, and culture.
               </p>
               <span className="feature-card-action">Preview compare tools →</span>
+            </div>
+
+            {/* Feature Card 4 */}
             <div 
-              className="feature-card glass-card coming-soon"
+              className="feature-card glass-card"
+              onClick={() => navigate('/get-consultancy')}
             >
               <div className="feature-icon-wrapper arts-theme">
                 <AlertCircle size={24} className="feature-icon" />
               </div>
               <h3 className="feature-card-title">Get Online Consultation</h3>
-              <div className="badge-coming-soon">COMING SOON</div>
               <p className="feature-card-desc">
-                1-on-1 face-to-face career counselling with expert counsellors at the lowest price ever
+                1‑on‑1 face‑to‑face career counselling with expert counsellors at the lowest price ever.
               </p>
-              <button className="btn btn-secondary" disabled>Notify Me</button>
-            </div>
+              <button className="btn btn-secondary">Get Started</button>
             </div>
           </div>
         </div>
