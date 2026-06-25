@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { ArrowLeftRight, Sparkles, Heart, Award, Users, Coins, Flame, Building, Search, X, List } from 'lucide-react';
+import { supabase } from '../supabaseclient';
 import CollegeCard from '../components/cards/CollegeCard';
 import useBookmarks from '../hooks/useBookmarks';
 import '../components/cards/Cards.css';
@@ -18,6 +19,7 @@ const types = ['All', 'Engineering', 'Medical', 'Commerce', 'Law', 'Liberal Arts
 
 function CompareColleges() {
   const { isBookmarked, toggleBookmark } = useBookmarks();
+  const [colleges, setColleges] = useState(collegesData);
   
   const [activeTab, setActiveTab] = useState('list'); // 'list' | 'compare'
   
@@ -28,18 +30,51 @@ function CompareColleges() {
   // Compare View State
   const [collegeAId, setCollegeAId] = useState('iit-bombay');
   const [collegeBId, setCollegeBId] = useState('bits-pilani');
+
+  useEffect(() => {
+    async function fetchColleges() {
+      try {
+        const { data, error } = await supabase.from('colleges').select('*');
+        if (error) throw error;
+        if (data && data.length > 0) {
+          const mapped = data.map(c => ({
+            id: c.id,
+            name: c.name,
+            type: c.type,
+            state: c.state,
+            icon: c.icon,
+            fees: c.fees,
+            avgPackage: c.avg_package || c.avgPackage,
+            exams: c.exams,
+            streams: c.streams,
+            placements: c.placements,
+            campusLife: c.campus_life || c.campusLife,
+            research: c.research,
+            culture: c.culture,
+            feesROI: c.fees_roi || c.feesROI,
+            admissionDifficulty: c.admission_difficulty || c.admissionDifficulty,
+            infrastructure: c.infrastructure
+          }));
+          setColleges(mapped);
+        }
+      } catch (err) {
+        console.error("Failed to fetch colleges from Supabase, using local fallback:", err);
+      }
+    }
+    fetchColleges();
+  }, []);
   
-  const collegeA = collegesData.find(c => c.id === collegeAId);
-  const collegeB = collegesData.find(c => c.id === collegeBId);
+  const collegeA = colleges.find(c => c.id === collegeAId) || colleges[0] || collegesData[0];
+  const collegeB = colleges.find(c => c.id === collegeBId) || colleges[1] || collegesData[1];
 
   // List filtering
   const filteredColleges = useMemo(() => {
-    return collegesData.filter((c) => {
+    return colleges.filter((c) => {
       const typeMatch = selectedType === 'All' || c.type === selectedType;
       const searchMatch = !searchQuery || c.name.toLowerCase().includes(searchQuery.toLowerCase()) || c.state.toLowerCase().includes(searchQuery.toLowerCase());
       return typeMatch && searchMatch;
     });
-  }, [selectedType, searchQuery]);
+  }, [colleges, selectedType, searchQuery]);
 
   const clearSearch = () => setSearchQuery('');
 
@@ -142,7 +177,7 @@ function CompareColleges() {
                     value={collegeAId}
                     onChange={(e) => setCollegeAId(e.target.value)}
                   >
-                    {collegesData.map(c => (
+                    {colleges.map(c => (
                       <option key={c.id} value={c.id} disabled={c.id === collegeBId}>
                         {c.icon} {c.name}
                       </option>
@@ -163,7 +198,7 @@ function CompareColleges() {
                     value={collegeBId}
                     onChange={(e) => setCollegeBId(e.target.value)}
                   >
-                    {collegesData.map(c => (
+                    {colleges.map(c => (
                       <option key={c.id} value={c.id} disabled={c.id === collegeAId}>
                         {c.icon} {c.name}
                       </option>

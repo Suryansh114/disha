@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Search, X, Calendar as CalendarIcon, ChevronLeft, ChevronRight, AlertCircle, RotateCcw } from 'lucide-react';
+import { supabase } from '../supabaseclient';
 import ExamCard from '../components/cards/ExamCard';
 import useBookmarks from '../hooks/useBookmarks';
 import '../components/cards/Cards.css';
@@ -17,6 +18,30 @@ const examsData = [
   { id: 'nata', name: 'NATA', category: 'Engineering', description: 'National Aptitude Test in Architecture for B.Arch degree approvals.', examDate: '2026-04-11', resultDate: '2026-04-20', status: 'Results Out', website: 'https://nata.in' },
   { id: 'nda', name: 'NDA & NA Exam I', category: 'Engineering', description: 'National Defence Academy entry for Army, Navy, and Air Force officers.', examDate: '2026-04-19', resultDate: '2026-05-30', status: 'Exam Finished', website: 'https://upsc.gov.in' },
   { id: 'ipmat', name: 'IPMAT (IIM Indore)', category: 'Commerce', description: 'Integrated Program in Management Aptitude Test for 5-year BBA+MBA.', examDate: '2026-05-22', resultDate: '2026-06-12', status: 'Admit Card Out', website: 'https://www.iimidr.ac.in' },
+];
+
+const localPrepCourses = [
+  { exam_id: 'jee-main', title: 'Physics Galaxy JEE Main Lectures', provider: 'YouTube', url: 'https://www.youtube.com/@physicsgalaxyworld', instructor: 'Ashish Arora', type: 'Free', rating: 4.9 },
+  { exam_id: 'jee-main', title: 'Complete Mathematics for JEE Mains', provider: 'YouTube', url: 'https://www.youtube.com/@MathematicallyInclined', instructor: 'Neha Agrawal', type: 'Free', rating: 4.8 },
+  { exam_id: 'jee-main', title: 'JEE Mains Chemistry Crash Course', provider: 'YouTube', url: 'https://www.youtube.com/@UnacademyJEE', instructor: 'Unacademy Team', type: 'Free', rating: 4.7 },
+  { exam_id: 'jee-main', title: 'Chemistry Masterclass for JEE Advanced', provider: 'Udemy', url: 'https://www.udemy.com/course/organic-chemistry-jee-advanced/', instructor: 'Dr. R. Singh', type: 'Paid', rating: 4.8 },
+  { exam_id: 'jee-main', title: 'Mathematics JEE Main Exam Prep Course', provider: 'Udemy', url: 'https://www.udemy.com/course/jee-main-maths-algebra/', instructor: 'LearnTech India', type: 'Paid', rating: 4.5 },
+  
+  { exam_id: 'jee-adv', title: 'Physics Galaxy JEE Advanced Lectures', provider: 'YouTube', url: 'https://www.youtube.com/@physicsgalaxyworld', instructor: 'Ashish Arora', type: 'Free', rating: 4.9 },
+  { exam_id: 'jee-adv', title: 'Chemistry Masterclass for JEE Advanced', provider: 'Udemy', url: 'https://www.udemy.com/course/organic-chemistry-jee-advanced/', instructor: 'Dr. R. Singh', type: 'Paid', rating: 4.8 },
+
+  { exam_id: 'neet', title: 'NCERT Biology Line by Line Series', provider: 'YouTube', url: 'https://www.youtube.com/@GarimaGoelBiology', instructor: 'Garima Goel', type: 'Free', rating: 4.9 },
+  { exam_id: 'neet', title: 'NEET Physics One-Shot Crash Course', provider: 'YouTube', url: 'https://www.youtube.com/@PhysicsWallah', instructor: 'Alakh Pandey', type: 'Free', rating: 4.9 },
+  { exam_id: 'neet', title: 'Complete Organic Chemistry for NEET', provider: 'YouTube', url: 'https://www.youtube.com/@PankajsirChemistry', instructor: 'Pankaj Sir', type: 'Free', rating: 4.8 },
+  { exam_id: 'neet', title: 'Mastering Biology for Medical Entrance Exams', provider: 'Udemy', url: 'https://www.udemy.com/course/neet-biology-physiology/', instructor: 'Dr. Shalini', type: 'Paid', rating: 4.6 },
+
+  { exam_id: 'clat', title: 'Daily Current Affairs & Legal Reasoning for CLAT', provider: 'YouTube', url: 'https://www.youtube.com/@LegalEdgeCLATPreparation', instructor: 'LegalEdge Team', type: 'Free', rating: 4.8 },
+  { exam_id: 'clat', title: 'CLAT English Language & Logical Reasoning', provider: 'YouTube', url: 'https://www.youtube.com/@ClatPossible', instructor: 'CLAT Possible', type: 'Free', rating: 4.6 },
+  { exam_id: 'clat', title: 'Crack CLAT: Step-by-Step Law Prep Bootcamp', provider: 'Udemy', url: 'https://www.udemy.com/course/clat-legal-reasoning-bootcamp/', instructor: 'Legal Academy', type: 'Paid', rating: 4.7 },
+
+  { exam_id: 'cuet', title: 'CUET UG General Test & Domain Domain Prep', provider: 'YouTube', url: 'https://www.youtube.com/@Adda247Official', instructor: 'Adda247 Team', type: 'Free', rating: 4.7 },
+  { exam_id: 'cuet', title: 'CUET Commerce Domain Core Classes', provider: 'YouTube', url: 'https://www.youtube.com/@CommerceAdda247', instructor: 'Commerce Adda', type: 'Free', rating: 4.8 },
+  { exam_id: 'cuet', title: 'CUET Section III Preparation Course', provider: 'Udemy', url: 'https://www.udemy.com/course/cuet-general-test-quantitative-aptitude/', instructor: 'PrepOnline', type: 'Paid', rating: 4.4 }
 ];
 
 const calendarMonths = [
