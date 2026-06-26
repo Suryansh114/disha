@@ -1,8 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
   ArrowLeftRight, Sparkles, Heart, Award, Users, Coins, Flame,
-  Building, Search, X, List, Table2, BookOpen, ExternalLink,
-  TrendingUp, Star
+  Building, Search, X, List, Table2
 } from 'lucide-react';
 
 import { api } from '../services/api';
@@ -10,15 +9,6 @@ import CollegeCard from '../components/cards/CollegeCard';
 import useBookmarks from '../hooks/useBookmarks';
 import '../components/cards/Cards.css';
 import './CompareColleges.css';
-
-const collegesData = [
-  { id: 'iit-bombay', name: 'IIT Bombay', type: 'Engineering', state: 'Maharashtra', icon: '⚙️', fees: '~₹2.5L/yr', avgPackage: '₹23.5 LPA', exams: ['JEE Advanced'], streams: ['science-pcm'], placements: '₹23.5 LPA overall average. Tech-focused recruiters dominate.', campusLife: '550-acre green campus. Hostels are older but functional.', research: 'Top-tier. High funding from government and MNCs.', culture: 'Extremely competitive. Strong startup culture.', feesROI: 'Excellent ROI. Average starting package exceeds cost.', admissionDifficulty: 'Extremely High. Top 3,000 in JEE Advanced.', infrastructure: 'World-class tech labs, supercomputing center.', feesNum: 250000, packageNum: 2350000, nirfRank: 3 },
-  { id: 'bits-pilani', name: 'BITS Pilani', type: 'Engineering', state: 'Rajasthan', icon: '⚡', fees: '~₹5.5L/yr', avgPackage: '₹20.8 LPA', exams: ['BITSAT'], streams: ['science-pcm'], placements: '₹20.8 LPA average. Top IT recruiters.', campusLife: '328-acre self-contained desert campus. Zero Attendance Policy.', research: 'High quality. Industry-linked Practice School.', culture: 'Collaborative, relaxed. Exceptional alumni network.', feesROI: 'Moderate ROI due to high fees, but excellent placements.', admissionDifficulty: 'Very High. Admission purely via BITSAT.', infrastructure: 'Outstanding self-contained residential infrastructure.', feesNum: 550000, packageNum: 2080000, nirfRank: 30 },
-  { id: 'aiims-delhi', name: 'AIIMS New Delhi', type: 'Medical', state: 'Delhi', icon: '🏥', fees: '<₹1K/yr', avgPackage: '₹12-18 LPA', exams: ['NEET UG'], streams: ['science-pcb'], placements: '100% placement into top residencies globally.', campusLife: 'Located in South Delhi. Very affordable hostels.', research: 'World-class clinical research.', culture: 'Highly academic and demanding.', feesROI: 'Exceptional ROI. Under ₹6,000 total fees for MBBS.', admissionDifficulty: 'Insanely High. Top 50-100 NEET rank.', infrastructure: 'Cutting-edge medical labs and hospitals.', feesNum: 1000, packageNum: 1500000, nirfRank: 1 },
-  { id: 'srcc', name: 'SRCC (DU)', type: 'Commerce', state: 'Delhi', icon: '📊', fees: '~₹40K/yr', avgPackage: '₹10.5 LPA', exams: ['CUET UG'], streams: ['commerce'], placements: '₹10.5 LPA average. Top consultancies recruit heavily.', campusLife: 'Located in DU North Campus. Premium building.', research: 'Focused on financial policy papers.', culture: 'Hyper-competitive. High emphasis on corporate portfolios.', feesROI: 'Stellar ROI. DU fees are very low.', admissionDifficulty: 'Exceptionally High. Nearly perfect CUET scores.', infrastructure: 'Good campus building, air-conditioned classrooms.', feesNum: 40000, packageNum: 1050000, nirfRank: 7 },
-  { id: 'nls-bangalore', name: 'NLS Bangalore', type: 'Law', state: 'Karnataka', icon: '⚖️', fees: '~₹2.5L/yr', avgPackage: '₹16 LPA', exams: ['CLAT'], streams: ['humanities', 'commerce'], placements: '₹16.0 LPA average. Premium law firms recruit directly.', campusLife: '23-acre campus in Nagarbhavi. Trimester system.', research: "India's leading center for legal reforms.", culture: 'Intellectually rigorous, argumentative.', feesROI: 'Great ROI. Placements average ₹16 LPA.', admissionDifficulty: 'High. Top 100-150 rank in CLAT.', infrastructure: 'Beautiful campus, vast law library.', feesNum: 250000, packageNum: 1600000, nirfRank: 1 },
-  { id: 'ashoka-univ', name: 'Ashoka University', type: 'Liberal Arts & Sciences', state: 'Haryana', icon: '📚', fees: '~₹10L/yr', avgPackage: '₹8.5 LPA', exams: ['AAT', 'SAT'], streams: ['humanities', 'science-pcm', 'commerce'], placements: '₹8.5 LPA average. Consulting, media, social impact.', campusLife: '25-acre residential campus in Sonepat.', research: 'High emphasis on interdisciplinary studies.', culture: 'Open, expressive, and liberal.', feesROI: 'Moderate ROI. Premium fees, but generous financial aid.', admissionDifficulty: 'High. Holistic admissions process.', infrastructure: 'Ivy-league style campus. State-of-the-art facilities.', feesNum: 1000000, packageNum: 850000, nirfRank: 25 }
-];
 
 const types = ['All', 'Engineering', 'Medical', 'Commerce', 'Law', 'Liberal Arts & Sciences'];
 
@@ -35,14 +25,12 @@ const TABLE_COLUMNS = [
 function CompareColleges() {
   const { isBookmarked, toggleBookmark } = useBookmarks();
   const [colleges, setColleges] = useState([]);
-  const [prepCourses, setPrepCourses] = useState([]);
-  const [activeTab, setActiveTab] = useState('list'); // 'list' | 'table' | 'compare' | 'courses'
+  const [activeTab, setActiveTab] = useState('list'); // 'list' | 'table' | 'compare'
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState('All');
   const [collegeAId, setCollegeAId] = useState('iit-bombay');
   const [collegeBId, setCollegeBId] = useState('bits-pilani');
   const [sortConfig, setSortConfig] = useState({ key: 'nirfRank', dir: 'asc' });
-  const [selectedCourseCollege, setSelectedCourseCollege] = useState('all');
 
   useEffect(() => {
     async function fetchData() {
@@ -50,10 +38,6 @@ function CompareColleges() {
         // Fetch colleges from API
         const collegesData = await api.getColleges();
         setColleges(collegesData || []);
-        
-        // Fetch prep courses from API
-        const coursesData = await api.getAllPrepCourses();
-        setPrepCourses(coursesData || []);
       } catch (err) {
         console.error("Failed to fetch data:", err);
         // Fallback will show empty states gracefully
@@ -62,8 +46,19 @@ function CompareColleges() {
     fetchData();
   }, []);
 
-  const collegeA = colleges.find(c => c.id === collegeAId) || colleges[0];
-  const collegeB = colleges.find(c => c.id === collegeBId) || colleges[1];
+  const emptyCollege = {
+    name: 'No college loaded',
+    placements: 'No data available',
+    campusLife: 'No data available',
+    research: 'No data available',
+    culture: 'No data available',
+    feesROI: 'No data available',
+    admissionDifficulty: 'No data available',
+    infrastructure: 'No data available'
+  };
+
+  const collegeA = colleges.find(c => c.id === collegeAId) || colleges[0] || emptyCollege;
+  const collegeB = colleges.find(c => c.id === collegeBId) || colleges[1] || emptyCollege;
 
   const filteredColleges = useMemo(() => {
     return colleges.filter((c) => {
@@ -86,11 +81,7 @@ function CompareColleges() {
     return list;
   }, [filteredColleges, sortConfig]);
 
-  const filteredCourses = useMemo(() => {
-    return prepCourses.filter(c =>
-      selectedCourseCollege === 'all' || c.college_id === selectedCourseCollege
-    );
-  }, [prepCourses, selectedCourseCollege]);
+
 
   const handleSort = (col) => {
     if (!col.sortable) return;
@@ -106,7 +97,6 @@ function CompareColleges() {
     { id: 'list', label: 'Directory', icon: List },
     { id: 'table', label: 'Table View', icon: Table2 },
     { id: 'compare', label: 'Compare', icon: ArrowLeftRight },
-    { id: 'courses', label: 'Prep Courses', icon: BookOpen },
   ];
 
   return (
@@ -121,8 +111,8 @@ function CompareColleges() {
           </span>
           <h1>Find & Compare Top Colleges</h1>
           <p>
-            Browse curated top colleges, compare them side-by-side, or explore
-            prep courses to get exam-ready from the start.
+            Browse curated top colleges, compare them side-by-side, and find the
+            best match for your future studies.
           </p>
           <div className="tabs-toggle">
             {tabs.map(({ id, label, icon: Icon }) => (
@@ -286,163 +276,77 @@ function CompareColleges() {
         {/* ──── COMPARE VIEW ──── */}
         {activeTab === 'compare' && (
           <div className="compare-view-content animate-slide-up">
-            <div className="comparison-selectors glass-card">
-              <div className="selector-col">
-                <label htmlFor="collegeA">Select College A</label>
-                <div className="select-wrapper">
-                  <select id="collegeA" value={collegeAId} onChange={(e) => setCollegeAId(e.target.value)}>
-                    {colleges.map(c => (
-                      <option key={c.id} value={c.id} disabled={c.id === collegeBId}>{c.icon} {c.name}</option>
-                    ))}
-                  </select>
-                </div>
+            {colleges.length === 0 ? (
+              <div className="empty-state">
+                <span>📚</span>
+                <p>No colleges are loaded yet. Check your Supabase connection or make sure the backend API is running.</p>
               </div>
-              <div className="comparison-icon-divider">
-                <ArrowLeftRight size={20} className="divider-arrows" />
-              </div>
-              <div className="selector-col">
-                <label htmlFor="collegeB">Select College B</label>
-                <div className="select-wrapper">
-                  <select id="collegeB" value={collegeBId} onChange={(e) => setCollegeBId(e.target.value)}>
-                    {colleges.map(c => (
-                      <option key={c.id} value={c.id} disabled={c.id === collegeAId}>{c.icon} {c.name}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div className="comparison-results-grid">
-              {[
-                { key: 'placements', icon: Award, color: 'text-orange', title: 'Average Placements', sub: 'Entry salary & recruiters' },
-                { key: 'campusLife', icon: Heart, color: 'text-rose', title: 'Campus Life', sub: 'Fests, hostels & infrastructure' },
-                { key: 'research', icon: Sparkles, color: 'text-indigo', title: 'Research Focus', sub: 'Patents, labs & funding' },
-                { key: 'culture', icon: Users, color: 'text-teal', title: 'Peer Culture', sub: 'Workload & study environment' },
-                { key: 'feesROI', icon: Coins, color: 'text-green', title: 'Fees & ROI', sub: 'Cost vs Return' },
-                { key: 'admissionDifficulty', icon: Flame, color: 'text-red', title: 'Admission Difficulty', sub: 'Exams & cutoffs' },
-                { key: 'infrastructure', icon: Building, color: 'text-blue', title: 'Infrastructure', sub: 'Labs, library & sports' }
-              ].map((factor, i) => {
-                const Icon = factor.icon;
-                return (
-                  <div key={i} className="comparison-row glass-card">
-                    <div className="factor-heading-col">
-                      <Icon className={`factor-icon ${factor.color}`} size={24} />
-                      <h4>{factor.title}</h4>
-                      <span className="factor-sub">{factor.sub}</span>
-                    </div>
-                    <div className="college-data-cols">
-                      <div className="college-data-col border-right">
-                        <span className="college-name-badge">{collegeA.name}</span>
-                        <p className="factor-text">{collegeA[factor.key]}</p>
-                      </div>
-                      <div className="college-data-col">
-                        <span className="college-name-badge">{collegeB.name}</span>
-                        <p className="factor-text">{collegeB[factor.key]}</p>
-                      </div>
+            ) : (
+              <>
+                <div className="comparison-selectors glass-card">
+                  <div className="selector-col">
+                    <label htmlFor="collegeA">Select College A</label>
+                    <div className="select-wrapper">
+                      <select id="collegeA" value={collegeAId} onChange={(e) => setCollegeAId(e.target.value)}>
+                        {colleges.map(c => (
+                          <option key={c.id} value={c.id} disabled={c.id === collegeBId}>{c.icon} {c.name}</option>
+                        ))}
+                      </select>
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
+                  <div className="comparison-icon-divider">
+                    <ArrowLeftRight size={20} className="divider-arrows" />
+                  </div>
+                  <div className="selector-col">
+                    <label htmlFor="collegeB">Select College B</label>
+                    <div className="select-wrapper">
+                      <select id="collegeB" value={collegeBId} onChange={(e) => setCollegeBId(e.target.value)}>
+                        {colleges.map(c => (
+                          <option key={c.id} value={c.id} disabled={c.id === collegeAId}>{c.icon} {c.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
 
-        {/* ──── COURSES VIEW ──── */}
-        {activeTab === 'courses' && (
-          <div className="animate-fade-in">
-            <div className="courses-header">
-              <TrendingUp size={20} className="courses-header-icon" />
-              <div>
-                <h2 className="courses-title">Exam Prep Courses</h2>
-                <p className="courses-subtitle">Handpicked free & paid resources from YouTube and Udemy — sorted by college entrance exam.</p>
-              </div>
-            </div>
-
-            <div className="courses-filter-row">
-              <span className="courses-filter-label">Filter by college:</span>
-              <div className="filter-chips-container" style={{ marginBottom: 0 }}>
-                <button
-                  className={`filter-chip ${selectedCourseCollege === 'all' ? 'active' : ''}`}
-                  onClick={() => setSelectedCourseCollege('all')}
-                >
-                  All Colleges
-                </button>
-                {collegesData.map(c => (
-                  <button
-                    key={c.id}
-                    className={`filter-chip ${selectedCourseCollege === c.id ? 'active' : ''}`}
-                    onClick={() => setSelectedCourseCollege(c.id)}
-                  >
-                    {c.icon} {c.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="courses-table-wrapper glass-card">
-              <table className="courses-data-table">
-                <thead>
-                  <tr>
-                    <th>Course Title</th>
-                    <th>College Target</th>
-                    <th>Exam</th>
-                    <th>Platform</th>
-                    <th>Instructor</th>
-                    <th>Type</th>
-                    <th>Rating</th>
-                    <th>Link</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredCourses.map((course, i) => {
-                    const college = collegesData.find(c => c.id === course.college_id);
+                <div className="comparison-results-grid">
+                  {[
+                    { key: 'placements', icon: Award, color: 'text-orange', title: 'Average Placements', sub: 'Entry salary & recruiters' },
+                    { key: 'campusLife', icon: Heart, color: 'text-rose', title: 'Campus Life', sub: 'Fests, hostels & infrastructure' },
+                    { key: 'research', icon: Sparkles, color: 'text-indigo', title: 'Research Focus', sub: 'Patents, labs & funding' },
+                    { key: 'culture', icon: Users, color: 'text-teal', title: 'Peer Culture', sub: 'Workload & study environment' },
+                    { key: 'feesROI', icon: Coins, color: 'text-green', title: 'Fees & ROI', sub: 'Cost vs Return' },
+                    { key: 'admissionDifficulty', icon: Flame, color: 'text-red', title: 'Admission Difficulty', sub: 'Exams & cutoffs' },
+                    { key: 'infrastructure', icon: Building, color: 'text-blue', title: 'Infrastructure', sub: 'Labs, library & sports' }
+                  ].map((factor, i) => {
+                    const Icon = factor.icon;
                     return (
-                      <tr key={i}>
-                        <td className="course-title-cell">{course.title}</td>
-                        <td>
-                          <span className="table-college-icon">{college?.icon}</span>{' '}
-                          <span className="course-college-name">{college?.name}</span>
-                        </td>
-                        <td><span className="exam-tag">{course.exam}</span></td>
-                        <td>
-                          <span className={`platform-badge ${course.provider === 'YouTube' ? 'yt' : 'udemy'}`}>
-                            {course.provider === 'YouTube' ? <video size={13} /> : <BookOpen size={13} />}
-                            {course.provider}
-                          </span>
-                        </td>
-                        <td className="instructor-cell">{course.instructor}</td>
-                        <td>
-                          <span className={`type-tag ${course.type === 'Free' ? 'free' : 'paid'}`}>
-                            {course.type}
-                          </span>
-                        </td>
-                        <td>
-                          <span className="rating-cell">
-                            <Star size={12} className="star-icon" />
-                            {course.rating}
-                          </span>
-                        </td>
-                        <td>
-                          <a
-                            href={course.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="course-link-btn"
-                          >
-                            Open <ExternalLink size={12} />
-                          </a>
-                        </td>
-                      </tr>
+                      <div key={i} className="comparison-row glass-card">
+                        <div className="factor-heading-col">
+                          <Icon className={`factor-icon ${factor.color}`} size={24} />
+                          <h4>{factor.title}</h4>
+                          <span className="factor-sub">{factor.sub}</span>
+                        </div>
+                        <div className="college-data-cols">
+                          <div className="college-data-col border-right">
+                            <span className="college-name-badge">{collegeA.name}</span>
+                            <p className="factor-text">{collegeA[factor.key]}</p>
+                          </div>
+                          <div className="college-data-col">
+                            <span className="college-name-badge">{collegeB.name}</span>
+                            <p className="factor-text">{collegeB[factor.key]}</p>
+                          </div>
+                        </div>
+                      </div>
                     );
                   })}
-                </tbody>
-              </table>
-            </div>
-            <p className="table-footnote">
-              * All external links are independent course providers. Disha does not earn referral fees from any of these links.
-            </p>
+                </div>
+              </>
+            )}
           </div>
         )}
+
+
       </div>
     </div>
   );
