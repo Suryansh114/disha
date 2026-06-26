@@ -427,7 +427,7 @@ function CompareColleges() {
                         <td><span className="exam-tag">{course.exam}</span></td>
                         <td>
                           <span className={`platform-badge ${course.provider === 'YouTube' ? 'yt' : 'udemy'}`}>
-                            {course.provider === 'YouTube' ? <Youtube size={13} /> : <BookOpen size={13} />}
+                            {course.provider === 'YouTube' ? <video size={13} /> : <BookOpen size={13} />}
                             {course.provider}
                           </span>
                         </td>
