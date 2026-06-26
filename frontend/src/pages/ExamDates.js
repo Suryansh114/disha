@@ -22,12 +22,10 @@ function ExamDates() {
   const [selectedExams, setSelectedExams] = useState(['jee-main', 'jee-adv', 'neet']);
   const [showCalendar, setShowCalendar] = useState(false);
   const [activeMonthIdx, setActiveMonthIdx] = useState(1);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchExams() {
       try {
-        setLoading(true);
         const data = await api.getExams();
         if (data && data.length > 0) {
           // Transform API data to match component expectations
@@ -45,8 +43,6 @@ function ExamDates() {
         }
       } catch (err) {
         console.error('Failed to fetch exams:', err);
-      } finally {
-        setLoading(false);
       }
     }
     fetchExams();
@@ -67,7 +63,7 @@ function ExamDates() {
       const searchMatch = !searchQuery || exam.name.toLowerCase().includes(searchQuery.toLowerCase()) || exam.description.toLowerCase().includes(searchQuery.toLowerCase());
       return catMatch && searchMatch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [examsData, selectedCategory, searchQuery]);
 
   const trackedExamsData = examsData.filter((exam) => selectedExams.includes(exam.id));
 

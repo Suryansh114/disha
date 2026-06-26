@@ -2,10 +2,9 @@ import React, { useState, useMemo, useEffect } from 'react';
 import {
   ArrowLeftRight, Sparkles, Heart, Award, Users, Coins, Flame,
   Building, Search, X, List, Table2, BookOpen, ExternalLink,
-  TrendingUp, Star, Youtube
+  TrendingUp, Star
 } from 'lucide-react';
 
-import { supabase } from '../supabaseclient';
 import { api } from '../services/api';
 import CollegeCard from '../components/cards/CollegeCard';
 import useBookmarks from '../hooks/useBookmarks';
@@ -19,22 +18,6 @@ const collegesData = [
   { id: 'srcc', name: 'SRCC (DU)', type: 'Commerce', state: 'Delhi', icon: '📊', fees: '~₹40K/yr', avgPackage: '₹10.5 LPA', exams: ['CUET UG'], streams: ['commerce'], placements: '₹10.5 LPA average. Top consultancies recruit heavily.', campusLife: 'Located in DU North Campus. Premium building.', research: 'Focused on financial policy papers.', culture: 'Hyper-competitive. High emphasis on corporate portfolios.', feesROI: 'Stellar ROI. DU fees are very low.', admissionDifficulty: 'Exceptionally High. Nearly perfect CUET scores.', infrastructure: 'Good campus building, air-conditioned classrooms.', feesNum: 40000, packageNum: 1050000, nirfRank: 7 },
   { id: 'nls-bangalore', name: 'NLS Bangalore', type: 'Law', state: 'Karnataka', icon: '⚖️', fees: '~₹2.5L/yr', avgPackage: '₹16 LPA', exams: ['CLAT'], streams: ['humanities', 'commerce'], placements: '₹16.0 LPA average. Premium law firms recruit directly.', campusLife: '23-acre campus in Nagarbhavi. Trimester system.', research: "India's leading center for legal reforms.", culture: 'Intellectually rigorous, argumentative.', feesROI: 'Great ROI. Placements average ₹16 LPA.', admissionDifficulty: 'High. Top 100-150 rank in CLAT.', infrastructure: 'Beautiful campus, vast law library.', feesNum: 250000, packageNum: 1600000, nirfRank: 1 },
   { id: 'ashoka-univ', name: 'Ashoka University', type: 'Liberal Arts & Sciences', state: 'Haryana', icon: '📚', fees: '~₹10L/yr', avgPackage: '₹8.5 LPA', exams: ['AAT', 'SAT'], streams: ['humanities', 'science-pcm', 'commerce'], placements: '₹8.5 LPA average. Consulting, media, social impact.', campusLife: '25-acre residential campus in Sonepat.', research: 'High emphasis on interdisciplinary studies.', culture: 'Open, expressive, and liberal.', feesROI: 'Moderate ROI. Premium fees, but generous financial aid.', admissionDifficulty: 'High. Holistic admissions process.', infrastructure: 'Ivy-league style campus. State-of-the-art facilities.', feesNum: 1000000, packageNum: 850000, nirfRank: 25 }
-];
-
-const collegeCourses = [
-  { college_id: 'iit-bombay', title: 'IIT JEE Physics by HC Verma', provider: 'YouTube', url: 'https://www.youtube.com/@physicsgalaxyworld', instructor: 'Ashish Arora', type: 'Free', rating: 4.9, exam: 'JEE Advanced' },
-  { college_id: 'iit-bombay', title: 'Complete JEE Maths Masterclass', provider: 'Udemy', url: 'https://www.udemy.com/course/jee-main-maths-algebra/', instructor: 'LearnTech India', type: 'Paid', rating: 4.6, exam: 'JEE Advanced' },
-  { college_id: 'bits-pilani', title: 'BITSAT Full Mock Test Series', provider: 'YouTube', url: 'https://www.youtube.com/@AakashiTutor', instructor: 'Aakash Team', type: 'Free', rating: 4.7, exam: 'BITSAT' },
-  { college_id: 'bits-pilani', title: 'BITSAT English Proficiency Course', provider: 'Udemy', url: 'https://www.udemy.com/course/english-proficiency-for-competitive-exams/', instructor: 'Priya Khanna', type: 'Paid', rating: 4.5, exam: 'BITSAT' },
-  { college_id: 'aiims-delhi', title: 'NCERT Biology Line by Line Series', provider: 'YouTube', url: 'https://www.youtube.com/@GarimaGoelBiology', instructor: 'Garima Goel', type: 'Free', rating: 4.9, exam: 'NEET UG' },
-  { college_id: 'aiims-delhi', title: 'NEET Physics One-Shot Crash Course', provider: 'YouTube', url: 'https://www.youtube.com/@PhysicsWallah', instructor: 'Alakh Pandey', type: 'Free', rating: 4.9, exam: 'NEET UG' },
-  { college_id: 'aiims-delhi', title: 'Mastering Biology for NEET', provider: 'Udemy', url: 'https://www.udemy.com/course/neet-biology-physiology/', instructor: 'Dr. Shalini', type: 'Paid', rating: 4.6, exam: 'NEET UG' },
-  { college_id: 'srcc', title: 'CUET Commerce Domain Core Classes', provider: 'YouTube', url: 'https://www.youtube.com/@CommerceAdda247', instructor: 'Commerce Adda', type: 'Free', rating: 4.8, exam: 'CUET UG' },
-  { college_id: 'srcc', title: 'CUET Section III Quantitative Aptitude', provider: 'Udemy', url: 'https://www.udemy.com/course/cuet-general-test-quantitative-aptitude/', instructor: 'PrepOnline', type: 'Paid', rating: 4.4, exam: 'CUET UG' },
-  { college_id: 'nls-bangalore', title: 'Daily Current Affairs & Legal Reasoning for CLAT', provider: 'YouTube', url: 'https://www.youtube.com/@LegalEdgeCLATPreparation', instructor: 'LegalEdge Team', type: 'Free', rating: 4.8, exam: 'CLAT' },
-  { college_id: 'nls-bangalore', title: 'Crack CLAT: Step-by-Step Law Prep Bootcamp', provider: 'Udemy', url: 'https://www.udemy.com/course/clat-legal-reasoning-bootcamp/', instructor: 'Legal Academy', type: 'Paid', rating: 4.7, exam: 'CLAT' },
-  { college_id: 'ashoka-univ', title: 'Liberal Arts Career Roadmap in India', provider: 'YouTube', url: 'https://www.youtube.com/@StudySmarter', instructor: 'StudySmarter', type: 'Free', rating: 4.5, exam: 'AAT / SAT' },
-  { college_id: 'ashoka-univ', title: 'SAT Math & Reading Complete Prep', provider: 'Udemy', url: 'https://www.udemy.com/course/sat-complete-prep/', instructor: 'Target Test Prep', type: 'Paid', rating: 4.8, exam: 'AAT / SAT' },
 ];
 
 const types = ['All', 'Engineering', 'Medical', 'Commerce', 'Law', 'Liberal Arts & Sciences'];
@@ -60,12 +43,10 @@ function CompareColleges() {
   const [collegeBId, setCollegeBId] = useState('bits-pilani');
   const [sortConfig, setSortConfig] = useState({ key: 'nirfRank', dir: 'asc' });
   const [selectedCourseCollege, setSelectedCourseCollege] = useState('all');
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        setLoading(true);
         // Fetch colleges from API
         const collegesData = await api.getColleges();
         setColleges(collegesData || []);
@@ -76,8 +57,6 @@ function CompareColleges() {
       } catch (err) {
         console.error("Failed to fetch data:", err);
         // Fallback will show empty states gracefully
-      } finally {
-        setLoading(false);
       }
     }
     fetchData();
