@@ -1,5 +1,14 @@
 const { supabase } = require('../supabaseClient');
 
+const normalizeCollege = (college) => ({
+  ...college,
+  avgPackage: college.avg_package,
+  feesROI: college.fees_roi,
+  admissionDifficulty: college.admission_difficulty,
+  campusLife: college.campus_life,
+  createdAt: college.created_at,
+});
+
 // Get all colleges
 exports.getColleges = async (req, res) => {
   try {
@@ -10,7 +19,7 @@ exports.getColleges = async (req, res) => {
 
     if (error) throw error;
 
-    res.json(data || []);
+    res.json((data || []).map(normalizeCollege));
   } catch (error) {
     console.error('Error fetching colleges:', error);
     res.status(500).json({ message: error.message });
@@ -30,7 +39,7 @@ exports.getCollegeById = async (req, res) => {
     if (error) throw error;
     if (!data) return res.status(404).json({ message: 'College not found' });
 
-    res.json(data);
+    res.json(normalizeCollege(data));
   } catch (error) {
     console.error('Error fetching college:', error);
     res.status(500).json({ message: error.message });
@@ -40,7 +49,7 @@ exports.getCollegeById = async (req, res) => {
 // Get colleges by type
 exports.getCollegesByType = async (req, res) => {
   try {
-    const { type } = req.query;
+    const { type } = req.params;
     const { data, error } = await supabase
       .from('colleges')
       .select('*')
@@ -49,7 +58,7 @@ exports.getCollegesByType = async (req, res) => {
 
     if (error) throw error;
 
-    res.json(data || []);
+    res.json((data || []).map(normalizeCollege));
   } catch (error) {
     console.error('Error fetching colleges by type:', error);
     res.status(500).json({ message: error.message });
@@ -85,7 +94,7 @@ exports.createCollege = async (req, res) => {
 
     if (error) throw error;
 
-    res.status(201).json(data[0]);
+    res.status(201).json(normalizeCollege(data[0]));
   } catch (error) {
     console.error('Error creating college:', error);
     res.status(500).json({ message: error.message });
@@ -107,7 +116,7 @@ exports.updateCollege = async (req, res) => {
     if (error) throw error;
     if (!data || data.length === 0) return res.status(404).json({ message: 'College not found' });
 
-    res.json(data[0]);
+    res.json(normalizeCollege(data[0]));
   } catch (error) {
     console.error('Error updating college:', error);
     res.status(500).json({ message: error.message });
