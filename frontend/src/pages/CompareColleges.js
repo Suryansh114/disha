@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import {
   ArrowLeftRight, Sparkles, Heart, Award, Users, Coins, Flame,
   Building, Search, X, List, Table2, Play, BookOpen, ExternalLink,
-  TrendingUp, Star
+  TrendingUp, Star, Youtube
 } from 'lucide-react';
 
 import { supabase } from '../supabaseclient';
