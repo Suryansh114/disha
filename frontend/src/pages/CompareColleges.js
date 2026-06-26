@@ -1,11 +1,12 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
   ArrowLeftRight, Sparkles, Heart, Award, Users, Coins, Flame,
-  Building, Search, X, List, Table2, Play, BookOpen, ExternalLink,
-  TrendingUp, Star, Video
+  Building, Search, X, List, Table2, BookOpen, ExternalLink,
+  TrendingUp, Star, Youtube
 } from 'lucide-react';
 
 import { supabase } from '../supabaseclient';
+import { api } from '../services/api';
 import CollegeCard from '../components/cards/CollegeCard';
 import useBookmarks from '../hooks/useBookmarks';
 import '../components/cards/Cards.css';
@@ -50,7 +51,8 @@ const TABLE_COLUMNS = [
 
 function CompareColleges() {
   const { isBookmarked, toggleBookmark } = useBookmarks();
-  const [colleges, setColleges] = useState(collegesData);
+  const [colleges, setColleges] = useState([]);
+  const [prepCourses, setPrepCourses] = useState([]);
   const [activeTab, setActiveTab] = useState('list'); // 'list' | 'table' | 'compare' | 'courses'
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState('All');
@@ -58,33 +60,31 @@ function CompareColleges() {
   const [collegeBId, setCollegeBId] = useState('bits-pilani');
   const [sortConfig, setSortConfig] = useState({ key: 'nirfRank', dir: 'asc' });
   const [selectedCourseCollege, setSelectedCourseCollege] = useState('all');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchColleges() {
+    async function fetchData() {
       try {
-        const { data, error } = await supabase.from('colleges').select('*');
-        if (error) throw error;
-        if (data && data.length > 0) {
-          const mapped = data.map(c => ({
-            id: c.id, name: c.name, type: c.type, state: c.state, icon: c.icon,
-            fees: c.fees, avgPackage: c.avg_package || c.avgPackage,
-            exams: c.exams, streams: c.streams, placements: c.placements,
-            campusLife: c.campus_life || c.campusLife, research: c.research,
-            culture: c.culture, feesROI: c.fees_roi || c.feesROI,
-            admissionDifficulty: c.admission_difficulty || c.admissionDifficulty,
-            infrastructure: c.infrastructure
-          }));
-          setColleges(mapped);
-        }
+        setLoading(true);
+        // Fetch colleges from API
+        const collegesData = await api.getColleges();
+        setColleges(collegesData || []);
+        
+        // Fetch prep courses from API
+        const coursesData = await api.getAllPrepCourses();
+        setPrepCourses(coursesData || []);
       } catch (err) {
-        console.error("Failed to fetch colleges from Supabase, using local fallback:", err);
+        console.error("Failed to fetch data:", err);
+        // Fallback will show empty states gracefully
+      } finally {
+        setLoading(false);
       }
     }
-    fetchColleges();
+    fetchData();
   }, []);
 
-  const collegeA = colleges.find(c => c.id === collegeAId) || colleges[0] || collegesData[0];
-  const collegeB = colleges.find(c => c.id === collegeBId) || colleges[1] || collegesData[1];
+  const collegeA = colleges.find(c => c.id === collegeAId) || colleges[0];
+  const collegeB = colleges.find(c => c.id === collegeBId) || colleges[1];
 
   const filteredColleges = useMemo(() => {
     return colleges.filter((c) => {
@@ -108,10 +108,10 @@ function CompareColleges() {
   }, [filteredColleges, sortConfig]);
 
   const filteredCourses = useMemo(() => {
-    return collegeCourses.filter(c =>
+    return prepCourses.filter(c =>
       selectedCourseCollege === 'all' || c.college_id === selectedCourseCollege
     );
-  }, [selectedCourseCollege]);
+  }, [prepCourses, selectedCourseCollege]);
 
   const handleSort = (col) => {
     if (!col.sortable) return;
