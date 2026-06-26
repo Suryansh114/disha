@@ -12,6 +12,7 @@
     "install-all": "npm install && npm run install-backend && npm run install-frontend"
   },
   "dependencies": {
+    "lucide-react": "^1.21.0",
     "mongodb": "^7.2.0"
   }
 }
